@@ -1,10 +1,16 @@
 Установка:
 
-1) Создать виртуалное окружение: 
+1) Клонировать репозиторий:
+
+cd /папка, где будет проект
+
+git clone https://github.com/lenurseytasanov/speech-recognition-project
+
+2) Создать виртуалное окружение: 
 
 https://docs.python.org/3/library/venv.html
 
-2) Установить все зависимости: 
+3) Установить все зависимости: 
 
 pip install -r requirements.txt
 
