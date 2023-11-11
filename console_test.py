@@ -63,7 +63,7 @@ def recognize_audio(file_name: str, language: str):
 
 
 if __name__ == '__main__':
-    OUTPUT = 'output.wav'
+    OUTPUT = 'output.wav' # заменить на 'test.wav', чтобы использовать подготовленный аудио файл
     REC_DURATION_IN_SECONDS = 5
     LANGUAGE = 'ru-RU'
 

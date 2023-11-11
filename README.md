@@ -1,34 +1,25 @@
 Установка:
 
-пишешь в терминале команды: 
+1) Создать виртуалное окружение: 
 
-cd <путь к папке с проектом>
+https://docs.python.org/3/library/venv.html
 
-python -m venv venv
+2) Установить все зависимости: 
 
-ещё возможно понадобиться это:
+pip install -r requirements.txt
 
-venv\Scripts\activate.bat
 
-И устанавливаешь все модули:
+Запуск (два способа):
 
-pip install django
-
-pip install speech_recognition
-
-pip install pyaudio
-
-pip install wave
-
-1) Запуск сервера:
+1) Запуск сервера Django:
 
 python manage.py runserver
 
-Потом переходишь по ссылке в терминале
+Потом переходишь по ссылке в терминале на свой локалхост
 
-2) Дополнительно:
+2) Конслольное приложение для теста, запускается как обычный питоновский файл:
 
-console_test.py - конслольное приложение для теста, запускается как обычный питоновский файл
+python console_test.py
 
 
 
