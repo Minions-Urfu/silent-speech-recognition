@@ -11,17 +11,17 @@ var AudioContext = window.AudioContext || window.webkitAudioContext;
 var recordButton = document.getElementsByClassName("mic-button")[0];
 var textBlock = document.getElementsByClassName("window-text")[0];
 //add events to those 3 buttons 
-recordButton.addEventListener("click", startRecording);
+recordButton.addEventListener("mousedown", startRecording);
+recordButton.addEventListener('mouseup', stopRecording)
 
-function startRecording() {
+function startRecording(event) {
     var constraints = {
         audio: true,
         video: false
     } 
     /* Disable the record button until we get a success or fail from getUserMedia() */
 
-    recordButton.disabled = true;
-    recordButton.classList.add('rec-mod')
+    // recordButton.disabled = true;
 
     /* We're using the standard promise based getUserMedia()
 
@@ -42,16 +42,16 @@ function startRecording() {
         console.log("Recording started");
     }).catch(function(err) {
         //enable the record button if getUserMedia() fails 
-        recordButton.disabled = false;
+        // recordButton.disabled = false;
     });
 
-    window.setTimeout(stopRecording, 5000)
+    // window.setTimeout(stopRecording, 5000)
 }
 
-function stopRecording() {
+function stopRecording(event) {
     console.log("stop");
-    recordButton.disabled = false;
-    recordButton.classList.remove('rec-mod')
+    // recordButton.disabled = false;
+    // recordButton.classList.remove('rec-mod')
 
     rec.stop(); //stop microphone access 
     gumStream.getAudioTracks()[0].stop();
