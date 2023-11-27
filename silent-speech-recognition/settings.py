@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-4t@bu!em$k344#6lxbgx45w4_mk!2&#53xwm*#ni4z=(%(&h(w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['lenurseytasanov.pythonanywhere.com']
+ALLOWED_HOSTS = ['lenurseytasanov.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'sp_rec.urls'
+ROOT_URLCONF = 'silent-speech-recognition.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sp_rec.wsgi.application'
+WSGI_APPLICATION = 'silent-speech-recognition.wsgi.application'
 
 
 # Database

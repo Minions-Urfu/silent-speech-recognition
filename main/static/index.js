@@ -69,7 +69,7 @@ function uploadFile(blob) {
     };
     var fd=new FormData();
     fd.append("audio_data",blob, "output");
-    xhr.open("POST","audio",true);
+    xhr.open("POST","audio/",true);
     xhr.send(fd);
 }
 

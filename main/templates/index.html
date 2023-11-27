@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <title>Speech Recognition App</title>
-    <link rel="stylesheet" href="static/styles.css" type="text/css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}" type="text/css">
 </head>
 <body>
     <div id="text"></div>
     <button id="start-rec" class="rec-button">REC</button>
     
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
-    <script src="static/index.js"></script>
+    <script src="{% static 'index.js' %}"></script>
 </body>
 </html>
