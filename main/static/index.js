@@ -8,8 +8,8 @@ var input;
 // shim for AudioContext when it's not avb. 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 
-var recordButton = document.getElementById("start-rec");
-var textBlock = document.getElementById("text")
+var recordButton = document.getElementsByClassName("mic-button")[0];
+var textBlock = document.getElementsByClassName("window-text")[0];
 //add events to those 3 buttons 
 recordButton.addEventListener("click", startRecording);
 
@@ -71,13 +71,4 @@ function uploadFile(blob) {
     fd.append("audio_data",blob, "output");
     xhr.open("POST","audio/",true);
     xhr.send(fd);
-}
-
-function createDownloadLink(blob) {
-    var url = URL.createObjectURL(blob);
-    var au = document.createElement('audio');
-    //add controls to the <audio> element 
-    au.controls = true;
-    au.src = url;
-    document.body.appendChild(au);
 }
