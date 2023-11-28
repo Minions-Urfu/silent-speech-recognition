@@ -10,9 +10,12 @@ var AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var recordButton = document.getElementsByClassName("mic-button")[0];
 var textBlock = document.getElementsByClassName("window-text")[0];
-//add events to those 3 buttons 
+
 recordButton.addEventListener("mousedown", startRecording);
-recordButton.addEventListener('mouseup', stopRecording)
+recordButton.addEventListener('mouseup', function() {
+    recordButton.disabled = true;
+    setTimeout(stopRecording, 1000)
+})
 
 function startRecording(event) {
     var constraints = {
@@ -42,7 +45,7 @@ function startRecording(event) {
         console.log("Recording started");
     }).catch(function(err) {
         //enable the record button if getUserMedia() fails 
-        // recordButton.disabled = false;
+        recordButton.disabled = false;
     });
 
     // window.setTimeout(stopRecording, 5000)
@@ -50,7 +53,7 @@ function startRecording(event) {
 
 function stopRecording(event) {
     console.log("stop");
-    // recordButton.disabled = false;
+    recordButton.disabled = false;
     // recordButton.classList.remove('rec-mod')
 
     rec.stop(); //stop microphone access 
