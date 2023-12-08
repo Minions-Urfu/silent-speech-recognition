@@ -2,73 +2,73 @@ URL = window.URL || window.webkitURL;
 var gumStream;
 //stream from getUserMedia() 
 var rec;
-//Recorder.js object 
-var input;
-//MediaStreamAudioSourceNode we'll be recording 
-// shim for AudioContext when it's not avb. 
-var AudioContext = window.AudioContext || window.webkitAudioContext;
 
-var recordButton = document.getElementsByClassName("mic-button")[0];
-var textBlock = document.getElementsByClassName("window-text")[0];
+window.MediaRecorder = OpusMediaRecorder
 
-recordButton.addEventListener("mousedown", startRecording);
-recordButton.addEventListener('mouseup', function() {
-    recordButton.disabled = true;
-    setTimeout(stopRecording, 1000)
-})
+let chunks = [];
 
-function startRecording(event) {
+let startButton = document.getElementsByClassName("start-button")[0];
+let stopButton = document.getElementsByClassName("stop-button")[0];
+let textBlock = document.getElementsByClassName("window-text")[0];
+
+startButton.addEventListener("click", startRecording);
+stopButton.addEventListener("click", () => {
+    setTimeout(stopRecording, 2000);
+});
+
+function startRecording() {
     var constraints = {
         audio: true,
         video: false
     } 
-    /* Disable the record button until we get a success or fail from getUserMedia() */
 
-    // recordButton.disabled = true;
+    startButton.disabled = true;
+    startButton.style.display = "none";
+    stopButton.disabled = false;
+    stopButton.style.display = "inline";
 
-    /* We're using the standard promise based getUserMedia()
-
-    https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia */
-    let audioContext = new AudioContext();
-    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-        console.log("getUserMedia() success, stream created, initializing Recorder.js ..."); 
-        /* assign to gumStream for later use */
+    navigator.mediaDevices.getUserMedia(constraints)
+    .then(function(stream) {
         gumStream = stream;
-        /* use the stream */
-        input = audioContext.createMediaStreamSource(stream);
-        /* Create the Recorder object and configure to record mono sound (1 channel) Recording 2 channels will double the file size */
-        rec = new Recorder(input, {
-            numChannels: 1
-        }) 
-        //start the recording process 
-        rec.record()
-        console.log("Recording started");
-    }).catch(function(err) {
-        //enable the record button if getUserMedia() fails 
-        recordButton.disabled = false;
-    });
 
-    // window.setTimeout(stopRecording, 5000)
+        rec = new MediaRecorder(stream, { mimeType: 'audio/wav' });
+        rec.ondataavailable = (e) => {
+            if (e.data.size > 0) {
+                chunks.push(e.data)
+            }
+        }
+        rec.start(2000)
+    }).catch(function(err) {
+        startButton.disabled = false;
+        startButton.style.display = "inline";
+        stopButton.disabled = true;
+        stopButton.style.display = "none";
+    });
 }
 
-function stopRecording(event) {
-    console.log("stop");
-    recordButton.disabled = false;
-    // recordButton.classList.remove('rec-mod')
+function stopRecording() {
+    startButton.disabled = false;
+    startButton.style.display = "inline";
+    stopButton.disabled = true;
+    stopButton.style.display = "none";
 
     rec.stop(); //stop microphone access 
     gumStream.getAudioTracks()[0].stop();
-    //create the wav blob and pass it on to createDownloadLink 
-    rec.exportWAV(uploadFile);
+
+    const blob = new Blob(chunks, { type: "audio/wav" });
+
+    chunks = [];
+    uploadFile(blob);
 }
+
 
 function uploadFile(blob) {
     var xhr=new XMLHttpRequest();
     xhr.onload=function(e) {
     if(this.readyState === 4) {
-        console.log("Server returned: ",e.target.responseText);
-        textBlock.innerText = e.target.responseText
-    }
+            console.log("Server returned: ",e.target.responseText);
+            textBlock.innerText = e.target.responseText
+        }
     };
     var fd=new FormData();
     fd.append("audio_data",blob, "output");

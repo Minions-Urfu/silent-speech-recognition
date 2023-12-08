@@ -44,10 +44,11 @@
         <div class="container_menu">
             <div class = "menu_line">
                 <div class ="microphone">
-                    <button class = "mic-button"></button>
+                    <button class = "mic-button start-button"></button>
+                    <button class = "mic-button stop-button" style="display: none;" disabled></button>
                 </div>
                 <div class="window">
-                    <textarea class="window-text" placeholder="Нажмите для записи..."></textarea>    
+                    <textarea class="window-text" placeholder="Нажмите для записи..." readonly></textarea>    
                 </div>
             </div>
         </div>
@@ -90,8 +91,9 @@
             </div>
         </footer>
     </main>
-    
-    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/opus-media-recorder@latest/OpusMediaRecorder.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opus-media-recorder@latest/encoderWorker.umd.js"></script>
     <script src="{% static 'index.js' %}"></script>
 </body>
 </html>
