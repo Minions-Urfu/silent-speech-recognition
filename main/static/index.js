@@ -1,15 +1,14 @@
-URL = window.URL || window.webkitURL;
-var gumStream;
+let gumStream;
 //stream from getUserMedia() 
-var rec;
+let rec;
 
 window.MediaRecorder = OpusMediaRecorder
 
 let chunks = [];
 
-let startButton = document.getElementsByClassName("start-button")[0];
-let stopButton = document.getElementsByClassName("stop-button")[0];
-let textBlock = document.getElementsByClassName("window-text")[0];
+const startButton = document.getElementsByClassName("start-button")[0];
+const stopButton = document.getElementsByClassName("stop-button")[0];
+const textBlock = document.getElementsByClassName("window-text")[0];
 
 startButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", () => {
@@ -17,7 +16,7 @@ stopButton.addEventListener("click", () => {
 });
 
 function startRecording() {
-    var constraints = {
+    const constraints = {
         audio: true,
         video: false
     } 
@@ -67,7 +66,6 @@ function getCookie(name) {
         const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
             const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -77,21 +75,19 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function uploadFile(blob) {
-    var xhr=new XMLHttpRequest();
-    xhr.onload=function(e) {
-    if(this.readyState === 4) {
-            console.log("Server returned: ",e.target.responseText);
-            textBlock.innerText = e.target.responseText
-        }
-    };
-    var fd=new FormData();
-    fd.append("audio_data",blob, "output");
+async function uploadFile(blob) {
+    const data = new FormData();
+    data.append("audio_data", blob, "output");
 
     const csrftoken = getCookie('csrftoken');
-    console.log(csrftoken);
-    xhr.open("POST","audio/",true);
-    xhr.setRequestHeader("X-CSRFToken", csrftoken)
 
-    xhr.send(fd);
+    const response = await fetch("/audio/", {
+        method: "POST",
+        headers: { "X-CSRFToken": csrftoken },
+        body: data
+    });
+
+    if (response.ok === true) {
+        textBlock.innerText = await response.text();
+    }
 }
