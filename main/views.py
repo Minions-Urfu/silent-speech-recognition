@@ -1,5 +1,7 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.middleware import csrf
 import speech_recognition
 
 
@@ -7,7 +9,6 @@ def index(request):
     return render(request, 'index.html')
 
 
-@csrf_exempt
 def recognize(request):
     LANGUAGE = 'ru-RU'
     wav_file = request.FILES['audio_data']
